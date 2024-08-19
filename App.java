@@ -234,17 +234,19 @@ login(sc);
         String red = "\033[0;31m"; // Red color text
         String reset = "\033[0m";  // Reset color to default
         String green = "\u001B[32m"; // Green color text
+        String blue = "\033[0;34m"; // Blue color text
+
         System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         System.out.println(green + "            Bank Project - Main Menu"+ reset);
         System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 
-            System.out.println(red + "1" + reset + ". View Account Balance");
-            System.out.println(red + "2" + reset + ". Deposit Money");
-            System.out.println(red + "3" + reset + ". Withdraw Money");
-            System.out.println(red + "4" + reset + ". Transfer Money");
-            System.out.println(red + "5" + reset + ". View Transaction History");
-            System.out.println(red + "6" + reset + ". Logout");
-            System.out.println(red + "7" + reset + ". Exit");
+            System.out.println(blue + "1" + reset + ". View Account Balance");
+            System.out.println(blue + "2" + reset + ". Deposit Money");
+            System.out.println(blue + "3" + reset + ". Withdraw Money");
+            System.out.println(blue + "4" + reset + ". Transfer Money");
+            System.out.println(blue + "5" + reset + ". View Transaction History");
+            System.out.println(blue + "6" + reset + ". Logout");
+            System.out.println(blue + "7" + reset + ". Exit");
             int input = sc.nextInt();
 
         if(input ==1){
@@ -260,7 +262,7 @@ login(sc);
             accTransfer(sc, currAccount);
         }
         if(input ==5){
-            acctransHist(sc);
+            acctransHist(sc, currAccount);
         }
         if(input ==6){
             saveUser();
@@ -302,10 +304,10 @@ login(sc);
     System.out.println("");
     System.out.println("Account Balance: $" + account.getBalance());
     System.out.println("");
-    saveUser();
-    System.out.println(blue + "Press Enter to return to the main menu..." + reset);
+    System.out.println(green + "Press Enter to return to the main menu..." + reset);
     sc.nextLine(); 
     sc.nextLine();
+    saveUser();
         accMenu(sc);
     }
     private static void accDeposit(Scanner sc, Account account){
@@ -314,48 +316,49 @@ login(sc);
         String green = "\u001B[32m"; // Green color text
         String blue = "\033[0;34m"; // Blue color text
 
-        int changedBalance = account.getBalance();
     System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     System.out.println(green + "          Bank Project - Account Deposit"+ reset);
     System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     System.out.println("");
         System.out.print("Enter the amount to deposit: $");
         int deposit = sc.nextInt();
-        changedBalance += deposit;
+
+        account.setBalance(account.getBalance() + deposit);
+
         System.out.println("Depositing $" + deposit + " to your account...");
         System.out.println("");
-        System.out.println("Deposit successful!");
-        System.out.println("New balance: $" + changedBalance);
+        System.out.println(blue + "Deposit successful!" + reset);
+        System.out.println("New balance: $" + account.getBalance());
         System.out.println("");
-        saveUser();
-        System.out.println(blue + "Press Enter to return to the main menu..." + reset);
+        System.out.println(green + "Press Enter to return to the main menu..." + reset);
     sc.nextLine(); 
     sc.nextLine();
         accMenu(sc);
+        saveUser();
+
     }
     private static void accWithdraw(Scanner sc, Account account){
         String red = "\033[0;31m"; // Red color text
         String reset = "\033[0m";  // Reset color to default
         String green = "\u001B[32m"; // Green color text
         String blue = "\033[0;34m"; // Blue color text
-        int changedBalance = account.getBalance();
     System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     System.out.println(green + "          Bank Project - Account Withdraw"+ reset);
     System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     System.out.println("");
         System.out.print("Enter the amount to withdraw: $");
         int withdraw = sc.nextInt();
-        changedBalance -= withdraw;
 
+        account.setBalance(account.getBalance() - withdraw);
         System.out.println("Withdrawing $" + withdraw + " to your account...");
         System.out.println("");
-        System.out.println("Withdraw successful!");
-        System.out.println("New balance: $" + changedBalance);
+        System.out.println(blue + "Withdraw successful!" + reset);
+        System.out.println("New balance: $" + account.getBalance());
         System.out.println("");
-        saveUser();
-        System.out.println(blue + "Press Enter to return to the main menu..." + reset);
+        System.out.println(green + "Press Enter to return to the main menu..." + reset);
     sc.nextLine(); 
     sc.nextLine();
+    saveUser();
         accMenu(sc); 
     }
     private static void accTransfer(Scanner sc,Account account){
@@ -398,13 +401,21 @@ login(sc);
         String red = "\033[0;31m"; // Red color text
         String reset = "\033[0m";  // Reset color to default
         String green = "\u001B[32m"; // Green color text
+        List<String> history = account.getTransactionHistory();
+
     System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     System.out.println(green + "  Bank Project - Account Transaction History"+ reset);
     System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     System.out.println("");
     System.out.println("-----------------------------------------------------------");
-    System.out.println("");//Enter the history
+    for(String transaction : history){
+        System.out.println(transaction);
+    }
     System.out.println("-----------------------------------------------------------");
 
+    System.out.println(green + "Press Enter to return to the main menu..." + reset);
+    sc.nextLine();
+    sc.nextLine();
+    accMenu(sc);
     }
 }
