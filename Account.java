@@ -5,13 +5,14 @@ public class Account implements Serializable {
     private String passWord;
     private String email;
     private int balance;
-    int add;
-    int reduce;
+    private List<String> transactionHistory; // List to store transaction history
+
     Account(String fullName,String passWord,String email,int balance){
         this.fullName = fullName;
         this.passWord = passWord;
         this.email = email;
         this.balance = balance;
+        this.transactionHistory = new ArrayList<>();
     }
     @Override
     public String toString() {
@@ -21,11 +22,13 @@ public class Account implements Serializable {
                 ", Balance =" + balance +
                 '}';
     }
-    void deposit(){
-        balance += add;
+    public void deposit(int amount){
+        balance += amount;
+        transactionHistory.add("Deposited: $" + amount);
     }
-    void withdraw(){
-        balance -= reduce;
+    public void withdraw(int amount){
+        balance -= amount;
+        transactionHistory.add("Withdrew $" + amount);
     }
 public String getName(){
     return fullName;
@@ -38,6 +41,9 @@ public void setBalance(int newBalance){
 }
 public Integer getBalance(){
     return balance;
+}
+public List<String> getTransactionHistory(){
+    return transactionHistory;
 }
 
 }
